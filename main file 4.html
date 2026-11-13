@@ -110,6 +110,35 @@
   .hm-speak{width:83.5px} .hm-send{width:83.5px;background:var(--accent);border-color:var(--accent);color:var(--on-accent);opacity:0;transform:scale(.85);pointer-events:none}
   .hm-ask.typing .hm-speak{opacity:0;transform:scale(.85);pointer-events:none}
   .hm-ask.typing .hm-send{opacity:1;transform:none;pointer-events:auto}
+  .hm-mic,.hm-vb{position:absolute;bottom:8.5px;width:37px;height:37px;border-radius:50%;border:1px solid #eeeef0;background:#fff;color:#141414;display:grid;place-items:center;cursor:pointer;padding:0;transition:opacity .25s var(--ease),transform .3s var(--ease)}
+  .hm-mic{right:100px} .hm-vmute{right:54.5px} .hm-vx{right:9.5px}
+  .hm-mic:active,.hm-vb:active{transform:scale(.94)}
+  .hm-mic.rec{background:var(--accent);border-color:var(--accent);color:var(--on-accent);animation:hmPulse 1.2s ease-out infinite}
+  @keyframes hmPulse{0%{box-shadow:0 0 0 0 rgba(0,160,150,.45)}100%{box-shadow:0 0 0 12px rgba(0,160,150,0)}}
+  .hm-vb{display:none} .hm-vmute .sl{display:none} .hm-vmute.off .sl{display:block}
+  /* voice mode: the words you say appear live in the box; mute / close replace mic + Speak */
+  .hm-ask.vm .hm-mic,.hm-ask.vm .hm-speak{display:none}
+  .hm-ask.vm .hm-vb{display:grid}
+  .hm-ask.vm:not(.typing) .hm-vmute:not(.off){animation:hmPulse 1.4s ease-out infinite}
+  .hm-ask.vm.typing .hm-vb{display:none}
+  .hm-ask.vm.typing .hm-mic{display:grid}
+  .hm-ls{position:absolute;left:14px;top:17px;height:26px;display:none;align-items:center;gap:10px;color:#6a6a70;font:400 16.1px/26px var(--font-hm);pointer-events:none}
+  .hm-ask.vm:not(.typing) .hm-ls{display:flex}
+  .hm-ask.vm #askInput::placeholder{color:transparent}
+  .hm-ask.vm #askInput:not(:placeholder-shown) ~ .hm-ls{display:none}
+  .hm-ls .w{display:flex;align-items:center;gap:2.5px;height:22px} .hm-ls .w i{display:block;width:2.5px;height:5px;border-radius:2px;background:var(--accent);animation:nrWave 1s ease-in-out infinite}
+  .hm-ls .w i:nth-child(3n){animation-delay:.2s} .hm-ls .w i:nth-child(3n+1){animation-delay:.45s} .hm-ls .w i:nth-child(5n){animation-delay:.7s}
+  .hm-ask.vm.mu .hm-ls .w{display:none}
+  .hm-ls b{font-weight:400}
+  .hm-pm-scrim{position:absolute;inset:0;z-index:6;background:rgba(12,26,28,.28);opacity:0;visibility:hidden;transition:opacity .25s var(--ease),visibility 0s linear .25s}
+  .hm-pm-scrim.open{opacity:1;visibility:visible;transition-delay:0s}
+  .hm-ask.pm-open{z-index:8}
+  .hm-pm{position:absolute;left:0;bottom:calc(100% + 8px);width:236px;padding:10px;border-radius:26px;background:#fff;border:1px solid #e3eeee;box-shadow:0 14px 36px rgba(0,60,65,.22);z-index:9;opacity:0;visibility:hidden;transform:translateY(10px) scale(.95);transform-origin:left bottom;transition:opacity .2s var(--ease),transform .28s var(--ease),visibility 0s linear .28s}
+  .hm-pm.open{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  .hm-pm button{display:flex;align-items:center;gap:14px;width:100%;border:0;background:transparent;padding:8px 10px 8px 8px;border-radius:18px;color:#161616;font:500 15.5px/1.2 var(--font-hm);cursor:pointer;text-align:left}
+  .hm-pm button:active{background:#f1f8f8}
+  .hm-pm .ic{flex:none;width:44px;height:44px;border-radius:50%;background:#eaf6f6;color:#0f5f63;display:grid;place-items:center}
+  .hm-pm .ic svg{width:22px;height:22px}
   .hm-plus:active,.hm-speak:active,.hm-send:active{transform:scale(.94)}
   #askInput:focus-visible{outline:none} .hm-ask:focus-within .hm-ask-card{border-color:#bfe6e6}
 
@@ -681,6 +710,8 @@
   .pq-st{height:92px;border-radius:22px;border:1px solid #e3e8e8;background:rgba(255,255,255,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 6px;text-align:center}
   .pq-st b{font:600 19px/1 var(--font-hm);color:#111}
   .pq-st span{font:400 11px/1.25 var(--font-hm);color:#6e7677}
+  .pq-top{margin:10px 6px 0}
+  .pq-top h2{font:600 22px/1.1 var(--font-hm);color:#111;letter-spacing:-.01em}
   .pq-h{margin-top:30px;text-align:center;font:600 21px/1.2 var(--font-hm);letter-spacing:-.01em;color:#1a1a1a}
   .pq-sub{margin-top:6px;text-align:center;font:400 13px/1.3 var(--font-hm);color:#777f80}
   .pq-types{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
@@ -987,6 +1018,10 @@
   .sol-grab{position:absolute;left:50%;top:11px;width:27px;height:4.5px;margin-left:-13.5px;border-radius:3px;background:#e4e6e7;z-index:3}
   .sol-p,.fil-p{position:absolute;left:0;right:0;bottom:0;background:#fff;transform:translateY(103%);transition:transform .55s var(--ease)}
   .rd-sh.open .sol-p,.rd-sh.open .fil-p{transform:none}
+  .ym-p{position:absolute;left:0;right:0;bottom:0;background:#f5f5f5;border-radius:32px 32px 0 0;padding:34px 22px 40px;transform:translateY(103%);transition:transform .55s var(--ease)}
+  .rd-sh.open .ym-p{transform:none}
+  .ym-it{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;padding:14px 4px;color:#b3261e;font:500 15px/1.2 var(--font-hm);cursor:pointer;text-align:left}
+  .ym-it svg{width:22px;height:22px;flex:none}
   .sol-p{top:106px;border-radius:32px 32px 0 0;overflow:hidden}
   .sol-sc{position:absolute;inset:0;overflow-y:auto;padding:34px 22px 112px;scrollbar-width:none;overscroll-behavior:contain}
   .sol-sc::-webkit-scrollbar{display:none}
@@ -1166,7 +1201,7 @@
   .ysp .vd{top:84px}
 
   /* quiz short */
-  .vd-qz{position:absolute;inset:0;overflow-y:auto;padding:14px 66px 150px 22px;scrollbar-width:none;overscroll-behavior:contain;cursor:default}
+  .vd-qz{position:absolute;inset:0;overflow-y:auto;padding:14px 66px 150px 22px;scrollbar-width:none;overscroll-behavior:auto;cursor:default}
   .vd-qz::-webkit-scrollbar{display:none}
   .qz-q{background:#fefbe8;border-radius:20px 20px 26px 26px;padding:13px 13px 15px}
   .qz-chip{display:inline-block;height:20px;padding:0 10px;border-radius:10px;border:1.5px solid #f2c94c;background:#fffbe6;font:500 10.5px/17px var(--font-hm);color:#161616;margin-bottom:10px}
@@ -1186,11 +1221,18 @@
   .qz-o.bad{background:#fff;border-color:#d64545} .qz-o.bad .qz-rd{background:#d64545;border-color:#d64545} .qz-o.bad .qz-rd svg.x{display:block}
   /* YoShorts quiz: three swipeable questions, and no title bar or progress line under a quiz */
   .vd-it.qz .vd-meta,.vd-it.qz .vd-prog{display:none}
+  .vd-it.qz .vd-b,.vd-it.qz .vd-av{display:none}
+  .qz-nav{position:absolute;left:22px;right:22px;bottom:30px;display:flex;justify-content:space-between;gap:12px;z-index:3}
+  .qz-nav button{flex:1;height:44px;border-radius:22px;border:1.5px solid #e3e8e8;background:#fff;color:#161616;font:500 14px/1 var(--font-hm);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:opacity .2s,transform .2s}
+  .qz-nav button.nx{background:#feca26;border-color:#feca26}
+  .qz-nav button:active:not(:disabled){transform:scale(.96)}
+  .qz-nav button:disabled{opacity:.4;cursor:default}
+  .qz-nav svg{width:16px;height:16px}
   .vd-it.qz::after{display:none}
   .vd-qz.qzx{padding:0;overflow:hidden}
-  .qz-tr{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+  .qz-tr{position:absolute;inset:0;display:flex;overflow-x:hidden;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
   .qz-tr::-webkit-scrollbar{display:none}
-  .qz-sl{flex:0 0 100%;height:100%;overflow-y:auto;scroll-snap-align:start;scroll-snap-stop:always;padding:14px 66px 96px 22px;scrollbar-width:none;overscroll-behavior:contain}
+  .qz-sl{flex:0 0 100%;height:100%;overflow-y:auto;scroll-snap-align:start;scroll-snap-stop:always;padding:14px 22px 110px 22px;scrollbar-width:none;overscroll-behavior:auto}
   .qz-sl::-webkit-scrollbar{display:none}
   .qz-dots{position:absolute;left:0;right:66px;bottom:34px;display:flex;justify-content:center;gap:7px;z-index:2;pointer-events:none}
   .qz-dots i{width:7px;height:7px;border-radius:50%;background:#d9dede;transition:width .25s var(--ease),background-color .25s}
@@ -1278,6 +1320,7 @@
   /* pages */
   .ap{position:absolute;inset:0;z-index:7;overflow:hidden;font-family:var(--font-hm);color:#161616;transform:translateX(100%);visibility:hidden;transition:transform .55s var(--ease),visibility 0s linear .55s}
   .ap.open{transform:none;visibility:visible;transition-delay:0s}
+  #apUpRead.open{z-index:8}                      /* the build progress must show above the results page it is opened over */
   .ap .statusbar{z-index:9;color:#000}
   .ap-cream{background:#fefbe8}
   .ap-cyan{background:linear-gradient(180deg,#c9f5f4 0%,#eafafa 9%,#fff 19%,#fff 70%,#e3fdff 100%)}
@@ -1556,7 +1599,7 @@
   .lk-tabs::-webkit-scrollbar{display:none}
   .lk-chip{flex:none;height:43px;min-width:65px;padding:0 19px;border-radius:22px;border:1px solid #dde1e2;background:#fff;font:500 13px/1 var(--font-hm);color:#4a5052;cursor:pointer;transition:background-color .2s,border-color .2s}
   .lk-chip[aria-selected="true"]{background:#fffbe6;border:1.5px solid #f2c94c;color:#161616}
-  .ap-sc.lk{top:160px;padding:0 15px 34px}
+  .ap-sc.lk{top:112px;padding:0 15px 34px}
   .lk-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;align-items:start}
   .lk-c{display:block;width:100%;padding:0;border:0;background:#fff;border-radius:20px;overflow:hidden;text-align:left;cursor:pointer;color:#161616;box-shadow:0 0 0 1px #eaf0f0;animation:rdIn .4s var(--ease) both;transition:transform .2s var(--ease)}
   .lk-c:active{transform:scale(.985)}
@@ -1847,6 +1890,10 @@
   .fx-hd.rs h2{right:96px}
   .fx-tabs{position:absolute;left:0;right:0;top:101px;z-index:3;display:flex;gap:6px;padding:0 15px;overflow-x:auto;scrollbar-width:none;cursor:grab} .fx-tabs::-webkit-scrollbar{display:none}
   .fx-tabs .rd-tab{height:40px;padding:0 19px;font-size:13px}
+  .fx-tabs .rd-tab.new{display:inline-flex;align-items:center;gap:6px;padding:0 17px 0 13px;background:#fff;border:1.5px dashed #aab6b8;color:#1d2a2d}
+  .fx-tabs .rd-tab.new svg{width:14px;height:14px;flex:none}
+  .fx-tabs .rd-tab.new[aria-selected="true"]{background:#fffbe6;border:1.5px solid #f2c94c}
+  .fx-ld{padding:28px 20px 0}
   .fx-sc{position:absolute;left:0;right:0;top:152px;bottom:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding-bottom:120px}
   .fx-sc::-webkit-scrollbar{display:none} .fx-pane{animation:rdIn .35s var(--ease) both}
   .fx-nt{padding:10px 25px 14px;font:400 12.9px/1.6 var(--font-hm);color:#161616}
@@ -1937,8 +1984,25 @@
   .rd-fb button svg{width:15px;height:15px} .rd-fb button:active{transform:scale(.92)} .rd-fb button[aria-pressed="true"]{background:rgba(255,255,255,.42)}
   .rd-fb button:focus-visible{outline:2px solid #ffc928;outline-offset:2px}
   .rd-in{position:relative}
+  .rd-in .rd-mic{margin-left:6px}
+  .rd-wv,.rd-vx,.rd-vsend{background:#fff;color:#00756c}
+  .rd-in .rd-vmute,.rd-in .rd-vx,.rd-in .rd-vsend{display:none}
+  .rd-in.vm #rdMic,.rd-in.vm .rd-wv{display:none}
+  .rd-in.vm .rd-vmute,.rd-in.vm .rd-vx{display:grid}
+  .rd-vmute .sl{display:none} .rd-vmute.off .sl{display:block}
+  .rd-in.vm .rd-vmute:not(.off){animation:nrPulse 1.4s ease-out infinite}
   .rd-ls{position:absolute;left:17px;right:50px;top:0;bottom:0;display:none;align-items:center;gap:11px;color:#fff;font:400 13.4px/1 var(--font-hm);pointer-events:none}
   .rd-in.ls input{opacity:0;pointer-events:none} .rd-in.ls .rd-ls{display:flex}
+  /* voice mode: live captions float above the input like the words you are saying */
+  .rd-in.vm:not(.vt) .rd-ls{display:flex} .rd-in.vm input::placeholder{color:transparent}
+  .rd-in.vm.mu .rd-ls .w{display:none}
+  .rd-in.vm.vt .rd-vmute,.rd-in.vm.vt .rd-vx{display:none} .rd-in.vm.vt .rd-vsend{display:grid}
+  .rd-cap{flex:none;display:none;justify-content:flex-end;margin:0 0 10px}
+  .rd-cap.on{display:flex}
+  .rd-cap-b{max-width:88%;max-height:96px;overflow-y:auto;scrollbar-width:none;padding:10px 17px;border-radius:20px;border-top-right-radius:6px;background:rgba(255,255,255,.2);color:#fff;font:400 14.2px/1.4 var(--font-hm);overflow-wrap:anywhere;animation:rdIn .3s var(--ease) both}
+  .rd-cap-b::after{content:"";display:inline-block;width:2px;height:1em;margin-left:3px;vertical-align:-2px;background:#fff;animation:capBlink 1s steps(1) infinite}
+  .rd-cap.mu .rd-cap-b::after{display:none}
+  @keyframes capBlink{50%{opacity:0}}
   .rd-ls .w{display:flex;align-items:center;gap:2.5px;height:22px} .rd-ls .w i{display:block;width:2.5px;height:5px;border-radius:2px;background:#fff;animation:nrWave 1s ease-in-out infinite}
   @keyframes nrWave{0%,100%{height:5px}50%{height:20px}}
   .rd-mic.rec{background:#fff;color:#00756c;animation:nrPulse 1.2s ease-out infinite}
@@ -1964,7 +2028,8 @@
   .t-att button{flex:none;width:28px;height:28px;border:0;border-radius:50%;background:#eef3f3;color:#063a3e;cursor:pointer;font:500 18px/1 var(--font-ui)}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .chips button{height:34px;padding:0 12px;border:0;border-radius:12px;background:var(--accent);color:var(--on-accent);font:600 12.5px var(--font-ui);cursor:pointer}
-  .composer{flex:none;display:flex;align-items:center;gap:8px;padding:8px 14px 24px}
+  .composer{flex:none;display:flex;align-items:center;gap:8px;padding:8px 14px 24px;position:relative}
+  .composer .t-pm{left:14px;bottom:calc(100% - 4px)}
   .t-plus{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid #cfe6e6;background:#fff;color:#063a3e;display:grid;place-items:center;cursor:pointer;transition:transform .2s var(--ease),border-color .2s} .t-plus:active{transform:scale(.94)} .t-plus svg{width:18px;height:18px}
   .t-field{position:relative;flex:1;min-width:0;display:flex;align-items:center;height:48px;padding:0 5px 0 17px;border-radius:24px;border:1px solid #cfe6e6;background:#fff;transition:border-color .2s,box-shadow .2s}
   .t-field:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,177,177,.14)}
@@ -1981,6 +2046,26 @@
   .t-ls .w{display:flex;align-items:center;gap:2.5px;height:22px} .t-ls .w i{display:block;width:2.5px;height:5px;border-radius:2px;background:var(--accent);animation:tWave 1s ease-in-out infinite}
   @keyframes tWave{0%,100%{height:5px}50%{height:20px}}
   .t-plus:focus-visible,.t-mic:focus-visible,.t-send:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  /* voice mode: live captions above the box, mute / close instead of mic + wave, Send once you type */
+  .t-wave,.t-vb{flex:none;width:38px;height:38px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:#e9f4f4;color:#063a3e;padding:0;margin-left:4px;transition:transform .2s var(--ease),background-color .2s}
+  .t-wave svg,.t-vb svg{width:19px;height:19px} .t-wave:active,.t-vb:active{transform:scale(.92)} .t-wave[hidden]{display:none}
+  .t-vb{display:none} .t-vmute .sl{display:none} .t-vmute.off .sl{display:block}
+  .composer.vm .t-mic,.composer.vm .t-wave{display:none}
+  .composer.vm .t-vb{display:grid} .composer.vm.typ .t-vb{display:none}
+  .composer.vm .t-vmute:not(.off){animation:tPulse 1.4s ease-out infinite}
+  .composer.vm:not(.typ) .t-ls{display:flex;right:96px} .composer.vm .t-field input::placeholder{color:transparent}
+  .composer.vm.mu .t-ls .w{display:none}
+  .t-act{display:flex;gap:8px;margin-top:10px}
+  .t-act button{width:30px;height:30px;padding:0;border:0;border-radius:10px;background:#e9f4f4;color:#063a3e;display:grid;place-items:center;cursor:pointer;transition:background-color .2s,color .2s,transform .2s var(--ease)}
+  .t-act button svg{width:16px;height:16px} .t-act button:active{transform:scale(.92)}
+  .t-act button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+  .t-act button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .t-cap{flex:none;display:none;justify-content:flex-end;padding:0 14px 4px}
+  .t-cap.on{display:flex}
+  .t-cap .bub{max-width:88%;max-height:96px;overflow-y:auto;scrollbar-width:none;background:var(--accent);color:var(--on-accent);border-bottom-right-radius:6px;animation:rise .3s var(--ease) both}
+  .t-cap .bub::after{content:"";display:inline-block;width:2px;height:1em;margin-left:3px;vertical-align:-2px;background:currentColor;animation:tCapBlink 1s steps(1) infinite}
+  .t-cap.mu .bub::after{display:none}
+  @keyframes tCapBlink{50%{opacity:0}}
 
   /* ================= AI Tutor ================= */
   .tutor{position:absolute;inset:0;z-index:8;background:linear-gradient(180deg,#e2f7f6 0%,#f6fcfc 30%,#fff 100%);display:flex;flex-direction:column;
@@ -2097,14 +2182,25 @@
       <button type="button" class="hm-card" id="chipUpload" style="left:132px"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="#2fb5cc" stroke-width="1.6"><path d="M12 14.6V4.8M8.3 8.5L12 4.8l3.7 3.7"/><path d="M3.8 13.4c.2 3.7 2.4 5.8 6 5.8h4.4c3.6 0 5.8-2.1 6-5.8"/></svg><span>Upload</span></button>
       <button type="button" class="hm-card" id="chipMore" style="left:251px"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="#cf52e0" stroke-width="1.6"><rect x="4" y="4" width="6.500" height="6.500" rx="1.800"/><rect x="13.500" y="4" width="6.500" height="6.500" rx="1.800"/><rect x="4" y="13.500" width="6.500" height="6.500" rx="1.800"/><path d="M16.750 13.800v6.400M13.550 17h6.400"/></svg><span>More</span></button>
 
+      <div class="hm-pm-scrim" id="plusScrim" aria-hidden="true"></div>
       <form class="hm-ask" id="ask" autocomplete="off">
+        <div class="hm-pm" id="plusMenu" role="menu" aria-label="Add to chat" aria-hidden="true">
+          <button type="button" role="menuitem" data-pm="camera"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.500A1.500 1.500 0 0 1 5.500 7h2.200l1.300-2h6l1.300 2h2.200A1.500 1.500 0 0 1 20 8.500v9a1.500 1.500 0 0 1-1.500 1.500h-13A1.500 1.500 0 0 1 4 17.500z"/><circle cx="12" cy="13" r="3.400"/></svg></span>Camera</button>
+          <button type="button" role="menuitem" data-pm="photos"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="4.500" width="17" height="15" rx="2.500"/><circle cx="9" cy="10" r="1.600"/><path d="M4 17l4.500-4.500 3.500 3.500 3-3 5 5"/></svg></span>Photos</button>
+          <button type="button" role="menuitem" data-pm="files"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.500l-7.800 7.800a4.600 4.600 0 0 1-6.500-6.500l8-8a3.100 3.100 0 0 1 4.400 4.400l-8 8a1.500 1.500 0 0 1-2.200-2.200l7.300-7.300"/></svg></span>Files</button>
+        </div>
         <div class="hm-ask-card">
           <input id="askInput" placeholder="Ask anything" aria-label="Ask anything" enterkeyhint="send">
           <button type="button" class="hm-plus" id="plus" aria-label="Add a file"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="currentColor" stroke-width="1.5"><path d="M12 4.5v15M4.5 12h15"/></svg></button>
-          <button type="button" class="hm-speak" id="mic" aria-label="Speak your question"><svg width="17" height="18" viewBox="0 0 24 26" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="currentColor" stroke-width="1.7"><rect x="8.5" y="2.8" width="7" height="12" rx="3.5"/><path d="M5 12c0 3.9 3.1 7 7 7s7-3.1 7-7M12 19v3.6"/></svg><span>Speak</span></button>
+          <div class="hm-ls" aria-live="polite"><span class="w" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Listening…</b></div>
+          <button type="button" class="hm-mic" id="askMic" aria-label="Dictate your question"><svg width="18" height="19" viewBox="0 0 24 26" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="currentColor" stroke-width="1.7"><rect x="8.5" y="2.8" width="7" height="12" rx="3.5"/><path d="M5 12c0 3.9 3.1 7 7 7s7-3.1 7-7M12 19v3.6"/></svg></button>
+          <button type="button" class="hm-speak" id="mic" aria-label="Talk to YO by voice"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="currentColor" stroke-width="2.2"><path d="M4 10v4M8 6.500v11M12 3.500v17M16 7.500v9M20 10v4"/></svg><span>Speak</span></button>
+          <button type="button" class="hm-vb hm-vmute" id="askVMute" aria-label="Mute microphone" aria-pressed="false"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.500 11.500a6.500 6.500 0 0 0 13 0M12 18v3"/><path class="sl" d="M4 4l16 16"/></svg></button>
+          <button type="button" class="hm-vb hm-vx" id="askVX" aria-label="End voice mode"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
           <button type="submit" class="hm-send" id="send" aria-label="Send"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="currentColor" stroke-width="2.1"><path d="M12 19V5M6 11l6-6 6 6"/></svg><span>Send</span></button>
         </div>
       </form>
+      <input type="file" id="fPlus" hidden>
       <input type="file" id="fSnap" accept="image/*" capture="environment" hidden>
       <input type="file" id="fUpload" accept="image/*,application/pdf" hidden>
     </section>
@@ -2133,11 +2229,7 @@
       <div class="page">
         <header class="ph" style="display:none"><img data-face="studying" alt=""></header>
         <div class="tags" id="pTags" hidden></div>
-        <div class="pq-stats">
-          <div class="pq-st"><b>342</b><span>Questions Attempted</span></div>
-          <div class="pq-st"><b>78%</b><span>Overall Accuracy</span></div>
-          <div class="pq-st"><b>19</b><span>Topics Mastered</span></div>
-        </div>
+        <header class="pq-top"><h2>Practice</h2></header>
         <h2 class="pq-h">Test it in just 10 minutes.</h2>
         <p class="pq-sub">Choose a type and let’s get started</p>
         <div class="pq-types">
@@ -2293,10 +2385,19 @@
       </header>
       <div class="msgs" id="msgs" aria-live="polite"></div>
       <div class="t-att" id="tAtt" hidden></div>
+      <div class="t-cap" id="tCap" aria-live="polite"><div class="bub" id="tCapB"></div></div>
       <form class="composer" id="tForm" autocomplete="off">
+        <div class="hm-pm t-pm" id="tPlusMenu" role="menu" aria-label="Add to chat" aria-hidden="true">
+          <button type="button" role="menuitem" data-tpm="camera"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.500A1.500 1.500 0 0 1 5.500 7h2.200l1.300-2h6l1.300 2h2.200A1.500 1.500 0 0 1 20 8.500v9a1.500 1.500 0 0 1-1.500 1.500h-13A1.500 1.500 0 0 1 4 17.500z"/><circle cx="12" cy="13" r="3.400"/></svg></span>Camera</button>
+          <button type="button" role="menuitem" data-tpm="photos"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="4.500" width="17" height="15" rx="2.500"/><circle cx="9" cy="10" r="1.600"/><path d="M4 17l4.500-4.500 3.500 3.500 3-3 5 5"/></svg></span>Photos</button>
+          <button type="button" role="menuitem" data-tpm="files"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.500l-7.800 7.800a4.600 4.600 0 0 1-6.500-6.500l8-8a3.100 3.100 0 0 1 4.400 4.400l-8 8a1.500 1.500 0 0 1-2.200-2.200l7.300-7.300"/></svg></span>Files</button>
+        </div>
         <button type="button" class="t-plus" id="tPlus" aria-label="Add a photo or file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.500v15M4.500 12h15"/></svg></button>
         <div class="t-field"><input id="tIn" placeholder="Ask YO anything…" aria-label="Message YO" enterkeyhint="send" maxlength="400"><div class="t-ls" aria-live="polite"><span class="w" aria-hidden="true"><i style="animation-delay:0.00s"></i><i style="animation-delay:0.08s"></i><i style="animation-delay:0.16s"></i><i style="animation-delay:0.24s"></i><i style="animation-delay:0.32s"></i><i style="animation-delay:0.40s"></i><i style="animation-delay:0.48s"></i><i style="animation-delay:0.56s"></i><i style="animation-delay:0.64s"></i><i style="animation-delay:0.72s"></i><i style="animation-delay:0.80s"></i><i style="animation-delay:0.88s"></i><i style="animation-delay:0.96s"></i><i style="animation-delay:1.04s"></i></span>Listening…</div>
           <button type="button" class="t-mic" id="tMic" aria-label="Speak your question"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3.500" width="6" height="11" rx="3"/><path d="M5.500 11.500a6.500 6.500 0 0 0 13 0M12 18v2.500"/></svg></button>
+          <button type="button" class="t-wave" id="tWave" aria-label="Talk with YO by voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10v4M8 6.500v11M12 3.500v17M16 7.500v9M20 10v4"/></svg></button>
+          <button type="button" class="t-vb t-vmute" id="tMute" aria-label="Mute microphone" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3.500" width="6" height="11" rx="3"/><path d="M5.500 11.500a6.500 6.500 0 0 0 13 0M12 18v2.500"/><path class="sl" d="M4 4l16 16"/></svg></button>
+          <button type="button" class="t-vb t-vx" id="tVX" aria-label="End voice mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
           <button type="submit" class="t-send" id="tSend" aria-label="Send" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
         <input type="file" id="tFile" accept="image/*,application/pdf" hidden>
       </form>
@@ -2456,7 +2557,7 @@
       <div class="bs-panel" role="dialog" aria-modal="true" aria-labelledby="mtTitle">
         <div class="bs-grab"></div>
         <h3 id="mtTitle">More tools</h3>
-        <div class="mt-l" id="moreList"><button type="button" class="mt-r" data-mt="hw"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.500h10a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5.500a1 1 0 0 1 1-1zM9.500 4.500v-1h5v1M9.200 13l2.100 2.100 3.700-4"/></svg></span><span class="mt-t"><b>HW Check</b><small>Upload your homework and get it checked</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button><button type="button" class="mt-r" data-mt="notes"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.500h7l4 4v13H7z"/><path d="M14 3.500v4h4M9.500 12h5M9.500 15h5M9.500 18h3"/></svg></span><span class="mt-t"><b>Notes</b><small>Turn a file or PDF into clean notes</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button><button type="button" class="mt-r" data-mt="flash"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="7" width="13" height="10" rx="2"/><path d="M7 4.500h12.500a1 1 0 0 1 1 1V15"/></svg></span><span class="mt-t"><b>Flashcards</b><small>Make flashcards from your material</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button><button type="button" class="mt-r" data-mt="quiz"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.500"/><path d="M9.700 9.600a2.400 2.400 0 1 1 3.300 2.200c-.7.300-1 .8-1 1.500M12 16.600h.01"/></svg></span><span class="mt-t"><b>Quiz me</b><small>Test yourself on what you upload</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button><button type="button" class="mt-r" data-mt="rapid"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3.500L5.500 13.500H11L10 20.500l8-10.500h-5.500z"/></svg></span><span class="mt-t"><b>Rapid Fire</b><small>Quick-fire questions on your upload</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button></div>
+        <div class="mt-l" id="moreList"><button type="button" class="mt-r" data-mt="notes"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.500h7l4 4v13H7z"/><path d="M14 3.500v4h4M9.500 12h5M9.500 15h5M9.500 18h3"/></svg></span><span class="mt-t"><b>Notes</b><small>Turn a file or PDF into clean notes</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button><button type="button" class="mt-r" data-mt="flash"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.500" y="7" width="13" height="10" rx="2"/><path d="M7 4.500h12.500a1 1 0 0 1 1 1V15"/></svg></span><span class="mt-t"><b>Flashcards</b><small>Make flashcards from your material</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button><button type="button" class="mt-r" data-mt="quiz"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.500"/><path d="M9.700 9.600a2.400 2.400 0 1 1 3.300 2.200c-.7.300-1 .8-1 1.500M12 16.600h.01"/></svg></span><span class="mt-t"><b>Quiz me</b><small>Test yourself on what you upload</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button><button type="button" class="mt-r" data-mt="rapid"><span class="mt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3.500L5.500 13.500H11L10 20.500l8-10.500h-5.500z"/></svg></span><span class="mt-t"><b>Rapid Fire</b><small>Quick-fire questions on your upload</small></span><svg class="mt-c" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.500L10.500 8 6 12.500"/></svg></button></div>
       </div>
     </div>
 
@@ -2595,9 +2696,14 @@
           </div>
           <div class="rd-chat" id="rdChat"></div>
           <div class="rd-tips" id="rdTips"><p>Quick tips</p><div id="rdTipL"></div></div>
+          <div class="rd-cap" id="rdCap" aria-live="polite" aria-atomic="false"><div class="rd-cap-b" id="rdCapB"></div></div>
           <form class="rd-in" id="rdForm" autocomplete="off">
             <input id="rdQ" placeholder="Ask anything about this chapter" aria-label="Ask anything about this chapter">
             <button type="button" class="rd-mic" id="rdMic" aria-label="Speak"><svg class="rd-mic-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></svg><svg class="rd-send-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            <button type="button" class="rd-mic rd-wv" id="rdWave" aria-label="Talk with Noor by voice"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 10v4M8 6.500v11M12 3.500v17M16 7.500v9M20 10v4"/></svg></button>
+            <button type="button" class="rd-mic rd-vmute" id="rdVMute" aria-label="Mute microphone" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.500 11.500a6.500 6.500 0 0 0 13 0M12 18v3"/><path class="sl" d="M4 4l16 16"/></svg></button>
+            <button type="button" class="rd-mic rd-vx" id="rdVX" aria-label="End voice mode"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            <button type="button" class="rd-mic rd-vsend" id="rdVSend" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
           </form>
         </div>
       </div>
@@ -2692,7 +2798,6 @@
     <section class="ap ap-act" id="apLikes" aria-label="Likes" aria-hidden="true">
       <div class="statusbar" data-sb></div>
       <header class="ap-hd"><button type="button" class="rd-back ap-back" data-actback aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.500 5.500L8 12l6.500 6.500"/></svg></button><h2>Likes</h2><button type="button" class="ac-fb" data-fil="likes" aria-label="Filter" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke="currentColor" stroke-width="1.7" ><path d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2"/><circle cx="9" cy="16" r="2"/></svg></button></header>
-      <div class="lk-tabs" id="lkTabs" role="tablist" aria-label="Show"><button type="button" class="lk-chip" role="tab" data-k="all" aria-selected="true">All</button><button type="button" class="lk-chip" role="tab" data-k="v" aria-selected="false">YoShorts</button><button type="button" class="lk-chip" role="tab" data-k="q" aria-selected="false">Quiz</button></div>
       <div class="ap-sc lk" id="lkBody"><div class="lk-grid" id="lkGrid"></div></div>
     </section>
     <section class="ap ap-act" id="apAQ" aria-label="Attempted Quiz" aria-hidden="true">
@@ -2902,6 +3007,15 @@
       </header>
       <div class="vd on" id="yspVd" aria-label="Shorts"><div class="vd-feed" id="yspFeed"></div></div>
       <div class="ysp-sw" id="yspSw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#fff" stroke="#111" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M9 11V5.500a1.500 1.500 0 0 1 3 0V10.500l4.200.9c1.500.3 2.500 1.700 2.300 3.200l-.6 4.400a2 2 0 0 1-2 1.700h-4.800a2 2 0 0 1-1.600-.8L5.700 15.600a1.400 1.400 0 0 1 2-1.900L9 14.800z"/></svg><span>Swipe up</span></div>
+
+      <!-- YoShorts "more" (three dots) sheet -->
+      <div class="rd-sh" id="ysMore" aria-hidden="true">
+        <div class="rd-shd" data-mclose></div>
+        <div class="ym-p" role="dialog" aria-modal="true" aria-label="More options">
+          <div class="sol-grab" aria-hidden="true"></div>
+          <button type="button" class="ym-it" id="ysReport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h12.500l-2.500 4.500 2.500 4.500H5"/></svg><span>Report an issue</span></button>
+        </div>
+      </div>
 
       <!-- change the video: subject, chapter or topic -->
       <div class="rd-sh" id="ysSheet" aria-hidden="true">
@@ -3212,7 +3326,7 @@
      Flows: the penguin only asks what is still missing
        snap      – Snap & Solve (user already uploaded a doubt)  → Grade (+Stream for 11/12)
        ask       – Ask anything: Upload / Link / Voice / text    → Grade (+Stream for 11/12)
-       learn     – Learn (AI Books)                              → Grade (+Stream) + Curriculum → subjects
+       learn     – Learn (AI Books)                              → Grade (+Stream) + Curriculum → subjects (Class 11/12 only; other classes get all books automatically)
        shorts    – YoShorts                                      → Grade (+Stream) + Curriculum
        practice  – Practice                                      → Curriculum + Grade (+Stream)
      ===================================================================== */
@@ -3230,7 +3344,7 @@
       case 'grade':    return !profile.grade;
       case 'stream':   return needsStream() && !profile.stream;
       case 'board':    return !profile.board;
-      case 'subjects': return !profile.learned && !flow.done.has('subjects');
+      case 'subjects': return needsStream() && !profile.learned && !flow.done.has('subjects');       // only Class 11 / 12 choose subjects
     }
     return false;
   }
@@ -3252,7 +3366,10 @@
   function finishFlow(){
     const {key, ctx} = flow;
     closeSheet();
-    if (key === 'learn'){ profile.learned = true; renderLearnTab(); }
+    if (key === 'learn'){
+      if (!needsStream() && !profile.subjects.length) profile.subjects = DEFAULT_SUBJECTS.slice();     // other classes: every book is added automatically
+      profile.learned = true; renderLearnTab();
+    }
     if (key === 'snap') setTimeout(() => snapStart(ctx), 380);
     else if (key === 'ask') setTimeout(() => ctx.resume ? tutorResume(ctx) : ctx.kind === 'upload' || ctx.kind === 'link' ? upStart(ctx) : openTutor(ctx), 380);
   }
@@ -3717,7 +3834,7 @@
       to.classList.add('noanim'); to.style.setProperty('--tx', dir * 32 + 'px'); void to.offsetWidth; to.classList.remove('noanim');
       from.style.setProperty('--tx', -dir * 32 + 'px');
       from.classList.remove('active'); to.classList.add('active');
-      curTab = i; setNav(i); renderAll(); if (i === 2) ysRender();
+      curTab = i; try { hvExit(false); adStop(false); } catch (_) {} setNav(i); renderAll(); if (i === 2) ysRender();
       if (i === 0) setMood(heroPet, 'excited', 1300);
       if (i === 3){ bounce(practicePet, false); }
       if (i === 4 && accountPet) setMood(accountPet, 'wearing-cap', 1500);
@@ -3741,7 +3858,20 @@
   const fSnap = $('#fSnap'), fUpload = $('#fUpload'), askForm = $('#ask'), askInput = $('#askInput');
   let pendingKind = 'upload';
   $('#snapBtn').addEventListener('click', () => fSnap.click());
-  $('#plus').addEventListener('click', () => { pendingKind = 'chat'; pendingTool = null; fUpload.click(); });
+  const plusMenu = $('#plusMenu'), fPlus = $('#fPlus');
+  const plusScrim = $('#plusScrim');
+  const pmSet = o => { plusMenu.classList.toggle('open', o); plusScrim.classList.toggle('open', o); askForm.classList.toggle('pm-open', o); plusMenu.setAttribute('aria-hidden', String(!o)); };
+  const pmShut = () => pmSet(false);
+  $('#plus').addEventListener('click', e => { e.stopPropagation(); pmSet(!plusMenu.classList.contains('open')); });
+  document.addEventListener('click', e => { if (!e.target.closest('#plusMenu')) pmShut(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && plusMenu.classList.contains('open')){ pmShut(); e.stopImmediatePropagation(); } }, true);
+  plusMenu.addEventListener('click', e => {
+    const b = e.target.closest('[data-pm]'); if (!b) return; const k = b.dataset.pm; pmShut();
+    fPlus.accept = k === 'files' ? 'application/pdf,image/*' : 'image/*';
+    if (k === 'camera') fPlus.setAttribute('capture', 'environment'); else fPlus.removeAttribute('capture');
+    fPlus.click();
+  });
+  fPlus.addEventListener('change', () => { const f = fPlus.files[0]; fPlus.value = ''; if (f) openChatWithFile(f); });
   $('#bell').addEventListener('click', () => toast('No new notifications'));
   $('#chipUpload').addEventListener('click', () => { pendingKind = 'upload'; pendingTool = null; fUpload.click(); });
   const moreSheet = $('#moreSheet'); let pendingTool = null;
@@ -3754,19 +3884,100 @@
   });
   addEventListener('keydown', e => { if (e.key === 'Escape' && moreSheet.classList.contains('open')){ moreShut(); e.stopImmediatePropagation(); } }, true);
   $('#chipYT').addEventListener('click', () => startFlow('ask', {kind:'link'}));
-  $('#mic').addEventListener('click', () => startFlow('ask', {kind:'voice'}));
   fSnap.addEventListener('change', () => { const f = fSnap.files[0]; fSnap.value = ''; if (f) startFlow('snap', {kind:'snap', file:f}); });
   fUpload.addEventListener('change', () => {
     const f = fUpload.files[0]; fUpload.value = ''; if (!f) return;
     if (pendingKind === 'chat'){ openChatWithFile(f); return; }
     pendingKind === 'snap' ? startFlow('snap', {kind:'snap', file:f}) : startFlow('ask', {kind:pendingKind, file:f, tool:pendingTool}); pendingTool = null;
   });
-  askInput.addEventListener('input', () => askForm.classList.toggle('typing', !!askInput.value.trim()));
+  askInput.addEventListener('input', () => { askForm.classList.toggle('typing', !!askInput.value.trim()); if (hv.on) hvExit(true); });   // typing takes over from voice
   askForm.addEventListener('submit', e => {
     e.preventDefault(); const t = askInput.value.trim(); if (!t) return;
+    hvExit(false); adStop(false);
     askInput.value = ''; askForm.classList.remove('typing'); askInput.blur();
     startFlow('ask', {kind:'text', text:t});
   });
+
+  /* ---- mic icon: dictate into the box (edit it, then Send) ---- */
+  const ASK_SR = window.SpeechRecognition || window.webkitSpeechRecognition, askMic = $('#askMic');
+  const ASK_SAY = ['Explain Newton’s second law with an example', 'What is kinetic molecular theory', 'Why does the ball curve downward after it leaves the table?'];
+  const ad = {rec:null, sim:null, base:'', i:0};
+  const askPut = t => { askInput.value = (ad.base ? ad.base + ' ' : '') + t; askForm.classList.toggle('typing', !!askInput.value.trim()); askInput.scrollLeft = askInput.scrollWidth; };
+  function adUi(on){ askMic.classList.toggle('rec', on); askMic.setAttribute('aria-label', on ? 'Stop dictating' : 'Dictate your question'); }
+  function adStop(keep){
+    clearTimeout(ad.sim); ad.sim = null;
+    if (ad.rec){ const r = ad.rec; ad.rec = null; r.onend = r.onerror = r.onresult = null; try { keep ? r.stop() : r.abort(); } catch (_) {} }
+    adUi(false);
+  }
+  function adSim(){ adUi(true); clearTimeout(ad.sim); ad.sim = setTimeout(() => { ad.sim = null; askPut(ASK_SAY[ad.i++ % ASK_SAY.length]); adUi(false); }, reduce ? 300 : 1900); }
+  function adStart(){
+    hvExit(false); ad.base = askInput.value.trim(); adUi(true);
+    if (ASK_SR){
+      try {
+        const r = ad.rec = new ASK_SR(); r.lang = 'en-IN'; r.interimResults = true; r.continuous = false;
+        r.onresult = ev => { let t = ''; for (let k = 0; k < ev.results.length; k++) t += ev.results[k][0].transcript; askPut(t.trim()); };
+        r.onerror = ev => {
+          if (ad.rec !== r) return; ad.rec = null;
+          if (/not-allowed|service-not-allowed/.test(ev.error)){ adUi(false); toast('Microphone access is blocked'); }
+          else if (ev.error === 'no-speech'){ adUi(false); toast('I didn’t catch that, try again'); }
+          else if (ev.error !== 'aborted') adSim(); else adUi(false);
+        };
+        r.onend = () => { if (ad.rec === r){ ad.rec = null; adUi(false); } };
+        r.start(); return;
+      } catch (_) { ad.rec = null; }
+    }
+    adSim();
+  }
+  askMic.addEventListener('click', () => (ad.rec || ad.sim) ? adStop(true) : adStart());
+
+  /* ---- Speak: voice mode. Words appear live in the box, and a pause sends the question to the YO chat ---- */
+  const hv = {on:false, muted:false, rec:null, sim:null, auto:null, i:0, ph:''};
+  const hvMute = $('#askVMute');
+  function hvUi(){
+    askForm.classList.toggle('vm', hv.on); askForm.classList.toggle('mu', hv.on && hv.muted);
+    hvMute.classList.toggle('off', hv.muted); hvMute.setAttribute('aria-pressed', String(hv.muted)); hvMute.setAttribute('aria-label', hv.muted ? 'Unmute microphone' : 'Mute microphone');
+    const lb = $('.hm-ls b'); if (lb) lb.textContent = hv.muted ? 'Microphone is muted' : 'Listening…';
+  }
+  function hvPut(base, t){
+    askInput.value = (base ? base + ' ' : '') + t; askInput.scrollLeft = askInput.scrollWidth;      // voice words are not "typing": no Send, mute / X stay
+    clearTimeout(hv.auto); if (askInput.value.trim()) hv.auto = setTimeout(() => { if (hv.on && !hv.muted && askInput.value.trim()) askForm.requestSubmit(); }, 1800);
+  }
+  function hvStopListen(){
+    clearTimeout(hv.sim); hv.sim = null; clearTimeout(hv.auto);
+    if (hv.rec){ const r = hv.rec; hv.rec = null; r.onend = r.onerror = r.onresult = null; try { r.abort(); } catch (_) {} }
+  }
+  function hvSim(){                                           // no speech engine: a sample question, word by word
+    clearTimeout(hv.sim); const words = ASK_SAY[hv.i++ % ASK_SAY.length].split(' '); let n = 0;
+    const step = () => { if (!hv.on || hv.muted) return; hvPut('', words.slice(0, ++n).join(' ')); hv.sim = n < words.length ? setTimeout(step, reduce ? 60 : 320) : null; };
+    hv.sim = setTimeout(step, reduce ? 100 : 900);
+  }
+  function hvListen(){
+    if (!hv.on || hv.muted) return; hvStopListen();
+    if (!ASK_SR) return hvSim();
+    try {
+      const r = new ASK_SR(); r.continuous = true; r.interimResults = true; r.lang = 'en-IN'; hv.rec = r;
+      r.onresult = ev => { let t = ''; for (let k = 0; k < ev.results.length; k++) t += ev.results[k][0].transcript; hvPut('', t.trim()); };
+      r.onend = () => { if (hv.on && !hv.muted && hv.rec === r){ try { r.start(); } catch (_) {} } };
+      r.onerror = ev => {
+        if (hv.rec !== r) return;
+        if (/not-allowed|service-not-allowed/.test(ev.error)){ hv.rec = null; hvExit(false); toast('Microphone access is blocked'); }
+        else if (/audio-capture|network/.test(ev.error)){ hv.rec = null; hvSim(); }
+      };
+      r.start();
+    } catch (_) { hv.rec = null; hvSim(); }
+  }
+  function hvEnter(){
+    if (hv.on) return; adStop(false); hv.on = true; hv.muted = false; askInput.value = ''; askForm.classList.remove('typing'); pmShut(); askInput.blur();
+    hvUi(); hvListen();
+  }
+  function hvExit(keepText){
+    if (!hv.on) return; hv.on = false; hv.muted = false; hvStopListen(); hvUi();
+    if (!keepText){ askInput.value = ''; askForm.classList.remove('typing'); }
+  }
+  $('#mic').addEventListener('click', hvEnter);
+  $('#askVX').addEventListener('click', () => hvExit(false));
+  hvMute.addEventListener('click', () => { hv.muted = !hv.muted; if (hv.muted) hvStopListen(); hvUi(); if (!hv.muted) hvListen(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && hv.on){ hvExit(false); } });
 
   /* =====================================================================
      AI Tutor: the name is asked here, naturally, on first interaction
@@ -3820,7 +4031,7 @@
   }
 
   function openTutor(ctx){ tReset(); tutorOpen = true; stage.dataset.tutor = 'on'; runTutor(ctx, ++tutorRun); }
-  function closeTutor(){ tVoiceStop(); tAttSet(null); tutorOpen = false; stage.dataset.tutor = 'off'; tutorRun++; clearMood(tAva); }
+  function closeTutor(){ tVoiceStop(); try { tvExit(); taStop(); } catch (_) {} tAttSet(null); tutorOpen = false; stage.dataset.tutor = 'off'; tutorRun++; clearMood(tAva); }
   $('#tBack').addEventListener('click', closeTutor);
 
   async function runTutor(ctx, run){
@@ -4632,10 +4843,10 @@
     rdLater(() => { t.classList.remove('typing'); t.innerHTML = esc(answerFor(text)); addFb(t); rdChat.scrollTop = rdChat.scrollHeight; }, 1100);
   }
   const NOOR_TIPS = {
-    '':['Summarise this chapter', 'Explain the key formulas', 'Quiz me on this chapter'],
-    ask:['Explain this step by step', 'Give me a simple example', 'Quiz me on this topic'],
-    video:['Explain this video simply', 'What should I remember?', 'Give me an example'],
-    quiz:['Explain this question', 'Why are the other options wrong?', 'Show me a similar question']
+    '':['Explain in easy words'],
+    ask:['Explain in easy words'],
+    video:['Explain in easy words'],
+    quiz:['Explain in easy words']
   };
   $('#rdTipL').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; rdQ.value = b.textContent; $('#rdForm').requestSubmit(); });
   function openNoor(ctx, reply, kind){
@@ -4651,6 +4862,7 @@
   }
   function closeNoor(instant){
     try { nvStop(false); } catch (_) {}
+    try { vmExit(); } catch (_) {}
     rdNoor.classList.remove('open'); rdNoor.setAttribute('aria-hidden', 'true');
     if (instant) rdChat.innerHTML = '';
   }
@@ -4671,7 +4883,63 @@
   $('#rdForm').addEventListener('submit', e => {
     e.preventDefault(); const q = rdQ.value.trim(); if (!q) return;
     rdQ.value = ''; rdMicLabel(); addMsg('me', esc(q)); noorAnswer(q);
+    if (typeof vmAfterSend === 'function') vmAfterSend();
   });
+  /* voice mode: speak and the words appear live in the box; send while it is open, or mute / close it */
+  const VM = {on:false, muted:false, rec:null, sim:null, ph:'', i:0, txt:'', auto:null};
+  const VM_SAY = ['What is kinetic molecular theory', 'Can you explain this with a simple example', 'Why does this happen?'];
+  const vmForm = $('#rdForm'), vmMute = $('#rdVMute');
+  function vmUi(){
+    vmForm.classList.toggle('vm', VM.on); vmForm.classList.toggle('vt', VM.on && !!rdQ.value.trim());
+    vmMute.classList.toggle('off', VM.muted); vmMute.setAttribute('aria-pressed', String(VM.muted)); vmMute.setAttribute('aria-label', VM.muted ? 'Unmute microphone' : 'Mute microphone');
+    if (VM.on) rdQ.placeholder = VM.muted ? 'Microphone is muted' : 'Listening…';
+    const txt = VM.on ? VM.txt.trim() : '', cap = $('#rdCap'), lb = $('.rd-ls b');
+    vmForm.classList.toggle('mu', VM.on && VM.muted); cap.classList.toggle('mu', VM.muted);
+    if (VM.on && lb) lb.textContent = VM.muted ? 'Microphone is muted' : 'Listening…';
+    cap.classList.toggle('on', VM.on && !!txt);
+    const cb = $('#rdCapB'); if (cb.textContent !== txt){ cb.textContent = txt; cb.scrollTop = cb.scrollHeight; }
+    rdChat.scrollTop = rdChat.scrollHeight;
+  }
+  /* voice needs no send button: once the speaker pauses, the captioned question is sent on its own */
+  /* what you say lives in VM.txt (the caption bubble); the text box stays free for typing */
+  const vmPut = (base, t) => {
+    VM.txt = (base ? base + ' ' : '') + t; vmUi();
+    clearTimeout(VM.auto); if (VM.txt.trim()) VM.auto = setTimeout(vmSendVoice, 1800);
+  };
+  function vmSendVoice(){
+    const q = VM.txt.trim(); VM.txt = ''; vmStopListen(); vmUi(); if (!VM.on || !q) return;
+    addMsg('me', esc(q)); noorAnswer(q);
+    if (window.SpeechRecognition || window.webkitSpeechRecognition) setTimeout(vmListen, 400);
+  }
+  function vmStopListen(){
+    clearTimeout(VM.sim); VM.sim = null; clearTimeout(VM.auto);
+    if (VM.rec){ const r = VM.rec; VM.rec = null; r.onend = r.onerror = r.onresult = null; try { r.abort(); } catch (_) {} }
+  }
+  function vmSim(){                                           // no speech engine: type a sample question word by word
+    clearTimeout(VM.sim); const words = VM_SAY[VM.i++ % VM_SAY.length].split(' '), base = VM.txt.trim(); let n = 0;
+    const step = () => { if (!VM.on || VM.muted) return; vmPut(base, words.slice(0, ++n).join(' ')); VM.sim = n < words.length ? setTimeout(step, reduce ? 60 : 320) : null; };
+    VM.sim = setTimeout(step, reduce ? 100 : 900);
+  }
+  function vmListen(){
+    if (!VM.on || VM.muted) return; vmStopListen();
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SR) return vmSim();
+    let base = VM.txt.trim();
+    try {
+      const r = new SR(); r.continuous = true; r.interimResults = true; r.lang = 'en-IN'; VM.rec = r;
+      r.onresult = ev => { let t = ''; for (let k = 0; k < ev.results.length; k++) t += ev.results[k][0].transcript; vmPut(base, t.trim()); };
+      r.onend = () => { if (VM.on && !VM.muted && VM.rec === r){ base = VM.txt.trim(); try { r.start(); } catch (_) {} } };
+      r.onerror = ev => { if (VM.rec === r && /not-allowed|service-not-allowed|audio-capture|network/.test(ev.error)){ VM.rec = null; vmSim(); } };
+      r.start();
+    } catch (_) { VM.rec = null; vmSim(); }
+  }
+  function vmEnter(){ if (VM.on) return; try { nvStop(false); } catch (_) {} VM.on = true; VM.muted = false; VM.ph = rdQ.placeholder; vmUi(); vmListen(); }
+  function vmExit(){ if (!VM.on) return; VM.on = false; VM.muted = false; VM.txt = ''; vmStopListen(); vmUi(); rdQ.placeholder = VM.ph; rdMicLabel(); }
+  function vmAfterSend(){ if (VM.on) vmUi(); }          // a typed question is sent; voice keeps listening
+  $('#rdWave').addEventListener('click', vmEnter);
+  $('#rdVX').addEventListener('click', vmExit);
+  $('#rdVSend').addEventListener('click', () => vmForm.requestSubmit());
+  vmMute.addEventListener('click', () => { VM.muted = !VM.muted; if (VM.muted) vmStopListen(); vmUi(); if (!VM.muted) vmListen(); });
+  rdQ.addEventListener('input', () => { if (VM.on) vmUi(); });
 
   /* ---- the rest of the reader ---- */
   $('#rdBack').addEventListener('click', closeReader);
@@ -5176,7 +5444,7 @@
       return `<div class="qz-q"><span class="qz-chip">Quick quiz${many ? ` · ${k + 1} of ${qs.length}` : ''}</span><p>${d.q}</p>${d.dg ? `<div class="qz-dg">${DG_SVG}<small>${d.cap}</small></div>` : ''}</div><div class="qz-os${done ? ' done' : ''}">${opts}</div>`;
     };
     if (!many) return `<div class="vd-qz">${inner(qs[0], 0)}</div>`;
-    return `<div class="vd-qz qzx"><div class="qz-tr">${qs.map((d, k) => `<section class="qz-sl" data-k="${k}">${inner(d, k)}</section>`).join('')}</div><div class="qz-dots" aria-hidden="true">${qs.map((_, k) => `<i${k === 0 ? ' class="on"' : ''}></i>`).join('')}</div></div>`;
+    return `<div class="vd-qz qzx"><div class="qz-tr">${qs.map((d, k) => `<section class="qz-sl" data-k="${k}">${inner(d, k)}</section>`).join('')}</div><div class="qz-nav"><button type="button" class="pv" aria-label="Previous question" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Previous</button><button type="button" class="nx" aria-label="Next question">Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div></div>`;
   }
   function yspItem(it, i, N){
     const quiz = it.type === 'q', av = $('.rd-av').src, h = hash(it.id), liked = LIKES.some(l => l.id === it.id), saved = LIB.some(l => l.id === it.id);
@@ -5211,7 +5479,7 @@
     yspLoad(s, c, idx); rdLater(yspStartTour, 700);
   }
   function ysClose(){
-    YP.open = false; ysSheetClose(); hideTour(); closeNoor(true); $('#yspSw').classList.remove('on');
+    YP.open = false; ysSheetClose(); ysMoreClose(); hideTour(); closeNoor(true); $('#yspSw').classList.remove('on');
     if (YP.custom){ YP.custom = false; YP.hdr = null; $('#yspTitle').textContent = 'YoShorts'; }
     lkRender(); aqRender(); libRender();
     ysPlayer.classList.remove('open'); ysPlayer.setAttribute('aria-hidden', 'true'); ysRender();
@@ -5242,18 +5510,17 @@
   }, 100);
   let yspSc = 0;
   yspFeed.addEventListener('scroll', () => { clearTimeout(yspSc); yspSc = setTimeout(() => { const i = clampN(Math.round(yspFeed.scrollTop / Math.max(1, yspFeed.clientHeight)), 0, YP.items.length - 1); yspActivate(i); }, 80); });
-  yspFeed.addEventListener('scroll', e => {                 // the dots under a swipeable quiz follow the question
-    const t = e.target; if (!t.classList || !t.classList.contains('qz-tr')) return;
-    const at = Math.round(t.scrollLeft / Math.max(1, t.clientWidth)); $$('.qz-dots i', t.parentElement).forEach((d, k) => d.classList.toggle('on', k === at));
+  const qzSync = box => {                                    // Previous / Next enable state follows the visible question
+    const t = $('.qz-tr', box), pv = $('.qz-nav .pv', box), nx = $('.qz-nav .nx', box); if (!t || !pv || !nx) return;
+    const at = Math.round(t.scrollLeft / Math.max(1, t.clientWidth)), n = t.children.length; pv.disabled = at <= 0; nx.disabled = at >= n - 1;
+  };
+  yspFeed.addEventListener('scroll', e => { const t = e.target; if (t.classList && t.classList.contains('qz-tr')) qzSync(t.parentElement); }, true);
+  yspFeed.addEventListener('click', e => {                   // Previous / Next move between the quiz questions
+    const nb = e.target.closest('.qz-nav button'); if (!nb || nb.disabled) return;
+    e.stopPropagation(); const t = $('.qz-tr', nb.closest('.vd-qz')); if (!t) return;
+    const at = Math.round(t.scrollLeft / Math.max(1, t.clientWidth));
+    t.scrollTo({left:(at + (nb.classList.contains('nx') ? 1 : -1)) * t.clientWidth, behavior: reduce ? 'auto' : 'smooth'});
   }, true);
-  (() => {                                                   // with a mouse, drag the questions sideways (touch already swipes)
-    let tr = null, x0 = 0, s0 = 0, moved = false;
-    yspFeed.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; tr = e.target.closest('.qz-tr'); if (tr){ x0 = e.clientX; s0 = tr.scrollLeft; moved = false; } });
-    yspFeed.addEventListener('pointermove', e => { if (!tr || e.buttons !== 1) return; const dx = e.clientX - x0; if (Math.abs(dx) > 5){ moved = true; tr.style.scrollSnapType = 'none'; tr.scrollLeft = s0 - dx; } });
-    const end = () => { if (!tr) return; const t = tr; tr = null; t.style.scrollSnapType = ''; if (moved) t.scrollTo({left:Math.round(t.scrollLeft / t.clientWidth) * t.clientWidth, behavior:'smooth'}); };
-    yspFeed.addEventListener('pointerup', end); yspFeed.addEventListener('pointercancel', end);
-    yspFeed.addEventListener('click', e => { if (moved){ e.stopPropagation(); moved = false; } }, true);
-  })();
   yspFeed.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && e.target.classList.contains('vd-it') && !e.target.classList.contains('qz')){ e.preventDefault(); yspToggle(e.target); } });
   function yspToggle(card){
     YP.paused = !YP.paused; const pp = $('.vd-pp', card); if (!pp) return;
@@ -5267,7 +5534,7 @@
     if (e.target.closest('.vd-pl')) return ysSheetOpen('topic');
     if (b){
       if (b.classList.contains('share')) return toast('Sharing is not in this prototype yet');
-      if (b.classList.contains('more')) return toast('More options are not in this prototype yet');
+      if (b.classList.contains('more')) return ysMoreOpen();
       const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on)); b.classList.toggle('on', on); b.querySelector('.n').textContent = kfmt(+b.dataset.n + (on ? 1 : 0)); if (b.classList.contains('like')) lkSync(it, on); if (b.classList.contains('save')) libSync(it, on); return;
     }
     if (opt){      // answering the quiz
@@ -5279,13 +5546,10 @@
       const box = $('.vd-qz', card), tr = $('.qz-tr', box), left = tr ? tr.scrollLeft : 0, top = (sl || box).scrollTop;
       box.outerHTML = yspQuiz(it);
       const nb = $('.vd-qz', card), nt = $('.qz-tr', nb);
-      if (nt){ nt.scrollLeft = left; const ns = $(`.qz-sl[data-k="${k}"]`, nb); if (ns) ns.scrollTop = top; } else nb.scrollTop = top;
+      if (nt){ const pin = () => { nt.style.scrollBehavior = 'auto'; nt.scrollLeft = k * nt.clientWidth; qzSync(nb); }; pin(); requestAnimationFrame(pin); setTimeout(pin, 250); qzSync(nb); const ns = $(`.qz-sl[data-k="${k}"]`, nb); if (ns) ns.scrollTop = top; } else nb.scrollTop = top;
       yspBar(+card.dataset.i);
-      const key = $('.qz-key', card); if (key) setTimeout(() => key.scrollIntoView({block:'nearest', behavior: reduce ? 'auto' : 'smooth'}), 120);
-      if (nt && k < qs.length - 1) setTimeout(() => {          // answered: slide on to the next question by itself
-        const t = $('.qz-tr', card); if (t && YP.open && Math.round(t.scrollLeft / Math.max(1, t.clientWidth)) === k) t.scrollTo({left:(k + 1) * t.clientWidth, behavior: reduce ? 'auto' : 'smooth'});
-      }, 1700);
-      return;
+      const key = $('.qz-key', card); if (key) setTimeout(() => { const sl2 = key.closest('.qz-sl'); if (sl2){ const r = key.getBoundingClientRect(), s = sl2.getBoundingClientRect(); if (r.bottom > s.bottom - 100) sl2.scrollBy({top: r.bottom - s.bottom + 110, behavior: reduce ? 'auto' : 'smooth'}); } else key.scrollIntoView({block:'nearest', behavior: reduce ? 'auto' : 'smooth'}); }, 120);
+      return;          // stays on this question until the learner taps Next
     }
     if (e.target.closest('.vd-qz')) return;
     if (it.type === 'v') yspToggle(card);
@@ -5294,7 +5558,7 @@
   /* the walkthrough points at the tutor once, wherever the first player is opened */
   function yspStartTour(){
     if (RD.vidSeen || !YP.open || rdTour.classList.contains('on')) return;
-    const av = $(`.vd-it[data-i="${YP.i}"] .vd-av`, yspFeed); if (!av) return;
+    const av = $(`.vd-it[data-i="${YP.i}"] .vd-av`, yspFeed); if (!av || YP.items[YP.i].type === 'q') return;
     RD.mode = 'vid'; rdTour.classList.add('on', 'single'); rdTour.classList.remove('step2');
     $('#rdNext').innerHTML = '<span id="rdNextT">Okay</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.500 11V20H4.500V11zM7.500 11l3.600-7.200a2 2 0 0 1 3.700 1L13.900 9h5.200a2 2 0 0 1 2 2.400l-1.400 6.400a2.200 2.200 0 0 1-2.200 1.700H7.500"/></svg>';
     const r = placeSpot(av, 3, true); rdSpot.classList.add('white'); rdSpot.classList.remove('rd-ring');
@@ -5352,8 +5616,14 @@
     if (SH.subj === YP.subj && SH.c === YP.c){ YP.paused = false; yspFeed.scrollTo({top:idx * yspFeed.clientHeight, behavior: reduce ? 'auto' : 'smooth'}); }
     else yspLoad(SH.subj, SH.c, idx);
   });
+  const ysMore = $('#ysMore');
+  const ysMoreOpen = () => { ysMore.classList.add('open'); ysMore.setAttribute('aria-hidden', 'false'); };
+  const ysMoreClose = () => { ysMore.classList.remove('open'); ysMore.setAttribute('aria-hidden', 'true'); };
+  ysMore.querySelector('[data-mclose]').addEventListener('click', ysMoreClose);
+  $('#ysReport').addEventListener('click', () => { ysMoreClose(); toast('Thanks, we’ll look into it'); });
   addEventListener('keydown', e => {     // Escape: the Noor card first, then the sheet, then the player
     if (e.key !== 'Escape' || !YP.open || rdNoor.classList.contains('open') || rdTour.classList.contains('on')) return;
+    if (ysMore.classList.contains('open')){ ysMoreClose(); e.stopPropagation(); return; }
     if (ysSheet.classList.contains('open')) ysSheetClose(); else ysClose();
     e.stopPropagation();
   }, true);
@@ -5579,7 +5849,10 @@
     });
     go.addEventListener('click', () => {
       const what = mode === 'pyq' ? `${st.subj} PYQ ${st.year}` : mode === 'chap' ? `${st.subj} chapter test` : `${st.subj} test`;
-      if (mode === 'pyq'){ close(); toast(`${what} is not in this prototype yet`); return; }
+      if (mode === 'pyq'){                         // same question screen as the subject test, headed with the subject and year picked
+        close(); qtStart({subj:st.subj, n:30, mins:st.timer ? 180 : null, title:`${st.subj} PYQ ${st.year}`, sub:`${st.subj} · PYQ mock test · ${st.year}`, chs:CH[st.subj].map((c, i) => `Ch ${i + 1}: ${c[0]}`)});
+        return;
+      }
       const t = mode === 'chap'
         ? {title:`Ch ${st.chap + 1}: ${CH[st.subj][st.chap][0]}`, sub:`${st.subj} · Chapter test`}
         : {title:`${st.subj} Test`, sub:`${st.subj} · Subject test · ${st.picked.size} chapter${st.picked.size === 1 ? '' : 's'}`};
@@ -5849,7 +6122,7 @@
     else if (k === 'snap'){ snRender(); $('#snBody').scrollTop = 0; actOpen('apSnap'); }
   });
   ['apAct', 'apLikes', 'apAQ', 'apAQD', 'apAsk', 'apSess'].forEach(id => $('[data-actback]', $('#' + id)).addEventListener('click', () => { actOverlaysOff(); apClose(); }));
-  ysDragScroll($('#lkTabs'), 0); ysDragScroll($('#ssTabs'), 0);
+  ysDragScroll($('#ssTabs'), 0);
 
   /* =====================================================================
      Likes (shorts and quizzes you hearted; hearts in the YoShorts player feed this list)
@@ -5863,7 +6136,7 @@
     {id:'lk.flower', t:'v', subj:'Biology', title:'Sexual Reproduction in Flowering Plants', part:'(Part 3/4)', meta:'Ch 1 · Reproduction', hsub:'Chapter 1 : Reproduction', art:'flower'},
     {id:'lk.q.micelle', t:'q', subj:'Chemistry', title:'3.4.1 Adsorption and Micelle Formation', part:'(Quiz)', meta:'Ch 4 · Surface Chemistry', hsub:'Chapter 4 : Surface Chemistry', qz:QZ_MICELLE}
   ];
-  const LK = {tab:'all', subj:null, sort:'new'};
+  const LK = {tab:'v', subj:null, sort:'new'};            // the Likes page lists YoShorts only
   const lkVisible = (o = LK) => { let a = LIKES.filter(l => (o.tab === 'all' || l.t === o.tab) && (!o.subj || sjOf(l.subj) === o.subj)); return o.sort === 'old' ? a.slice().reverse() : a; };
   const sjOf = x => x === 'Mathematics' ? 'Maths' : x;
   function lkCard(l){
@@ -5874,13 +6147,9 @@
   }
   function lkRender(){
     const list = lkVisible(), g = $('#lkGrid');
-    if (!list.length){ g.innerHTML = `<div class="lk-empty"><b>${LIKES.length ? 'Nothing matches' : 'No likes yet'}</b>${LIKES.length ? 'Try a different filter.' : 'Tap the heart on a short or a quiz and it will show up here.'}</div>`; return; }
+    if (!list.length){ g.innerHTML = `<div class="lk-empty"><b>${LIKES.length ? 'Nothing matches' : 'No likes yet'}</b>${LIKES.length ? 'Try a different filter.' : 'Tap the heart on a short and it will show up here.'}</div>`; return; }
     g.innerHTML = list.map(lkCard).join('');
   }
-  $('#lkTabs').addEventListener('click', e => {
-    const b = e.target.closest('[data-k]'); if (!b) return; LK.tab = b.dataset.k;
-    $$('#lkTabs .lk-chip').forEach(c => c.setAttribute('aria-selected', String(c === b))); lkRender(); $('#lkBody').scrollTop = 0;
-  });
   $('#lkGrid').addEventListener('click', e => { const c = e.target.closest('.lk-c'); if (c) lkPlay(c.dataset.id); });
   const lkToItem = l => ({id:l.id, type:l.t, cu:true, rec:l, subj:l.subj, title:l.title, part:l.part || '', hsub:l.hsub, no:'', topic:l.title, tn:'', qz:l.qz,
     poster:l.art ? (l.art === 'sketch' ? VD_POSTER : acImg(l.frame ? 'frame' : l.art)) : null, full:!!l.frame, bg:l.art === 'sketch' ? '#fefefe' : l.frame ? AC_ART.bg.frame : l.art ? AC_ART.bg[l.art] : null});
@@ -6537,27 +6806,36 @@
   upIn.addEventListener('blur', () => upRenameEnd(true));
   /* choose */
   $('#upBody').addEventListener('click', e => { const b = e.target.closest('[data-tool]'); if (b) upChoose(b.dataset.tool); });
-  function upChoose(tool){ if (UP.gen[tool]) return upResOpen(tool); if (!UP.job[tool]) upJob(tool); upRead(tool); }
+  function upChoose(tool, quick){ if (UP.gen[tool]) return upResOpen(tool); if (!UP.job[tool]) upJob(tool, quick); upRead(tool); }
   /* the job: three steps, then it is ready (leaving the screen does not stop it) */
-  function upJob(tool){
-    const j = UP.job[tool] = {step:0}, T = reduce ? [150, 300, 500] : [1000, 2000, 3300];
+  function upJob(tool, quick){
+    const j = UP.job[tool] = {step:0}, T = reduce ? [150, 300, 500] : quick ? [600, 1200, 1900] : [1000, 2000, 3300];
     setTimeout(() => { j.step = 1; urDraw(tool); }, T[0]); setTimeout(() => { j.step = 2; urDraw(tool); }, T[1]);
     setTimeout(() => { delete UP.job[tool]; UP.gen[tool] = true; upReset(tool); upReady(tool); }, T[2]);
   }
   function upReady(tool){
     const onRead = apStack[apStack.length - 1] === 'apUpRead' && UP.reading === tool;
     if (onRead){ apClose(); UP.reading = null; if (apStack.includes('apUpRes')){ UP.tab = tool; resRender(); } else upResOpen(tool); }
-    else { toast(`Your ${UP_BUILD[tool]} ${tool === 'notes' || tool === 'flash' ? 'are' : 'is'} ready`); if (apStack.includes('apUpRes') && UP.tab === tool) resRender(); }
+    else { if (!(apStack.includes('apUpRes') && UP.tab === tool)) toast(`Your ${UP_BUILD[tool]} ${tool === 'notes' || tool === 'flash' ? 'are' : 'is'} ready`); if (apStack.includes('apUpRes')){ if (UP.tab === tool) resRender(); else resTabs(); } }
   }
   function upRead(tool){ UP.reading = tool; urDraw(tool); actOpen('apUpRead'); }
+  function upSteps(tool){
+    const vid = UP.ctx && UP.ctx.kind === 'link', pdf = UP.ctx && UP.ctx.file && /pdf/i.test(UP.ctx.file.type || UP.ctx.file.name);
+    return [vid ? 'Transcribing the video' : 'Transcribing Pages', 'Structuring into sections', `Building ${UP_BUILD[tool]}`];
+  }
+  function upLoading(tool){       // the build progress, shown inside the results page itself
+    const j = UP.job[tool] || {step:0}, vid = UP.ctx && UP.ctx.kind === 'link', pdf = UP.ctx && UP.ctx.file && /pdf/i.test(UP.ctx.file.type || UP.ctx.file.name);
+    return `<div class="ur fx-ld"><h1>Reading your ${vid ? 'video' : pdf ? 'PDF' : 'file'}</h1><p class="s">Usually under a minute</p><ol aria-live="polite">${upSteps(tool).map((s, i) => `<li class="${i < j.step ? 'done' : i === j.step ? 'on' : 'wait'}"><i>${i < j.step ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>' : ''}</i>${s}</li>`).join('')}</ol></div>`;
+  }
   function urDraw(tool){
+    if (UP.tab === tool && !UP.gen[tool] && !UP.reading && apStack.includes('apUpRes')){ $('#rsSc').innerHTML = `<div class="fx-pane" data-t="${tool}">${upLoading(tool)}</div>`; return; }
     if (UP.reading !== tool) return; const j = UP.job[tool] || {step:3}, vid = UP.ctx && UP.ctx.kind === 'link', pdf = UP.ctx && UP.ctx.file && /pdf/i.test(UP.ctx.file.type || UP.ctx.file.name), steps = [vid ? 'Transcribing the video' : 'Transcribing Pages', 'Structuring into sections', `Building ${UP_BUILD[tool]}`];
     $('#urBody').innerHTML = `<h1>Reading your ${vid ? 'video' : pdf ? 'PDF' : 'file'}</h1><p class="s">Usually under a minute</p><ol aria-live="polite">${steps.map((s, i) => `<li class="${i < j.step ? 'done' : i === j.step ? 'on' : 'wait'}"><i>${i < j.step ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>' : ''}</i>${s}</li>`).join('')}</ol><p class="info">Leave this screen if you want - we’ll ping you when the set is ready.</p>`;
   }
   /* results */
   function upResOpen(tool){ UP.tab = tool; resRender(); $('#rsSc').scrollTop = 0; actOpen('apUpRes'); }
   function resTabs(){
-    const box = $('#rsTabs'); box.innerHTML = UP_TOOLS.map(([k, l]) => `<button type="button" class="rd-tab" role="tab" data-k="${k}" aria-selected="${k === UP.tab}">${l}</button>`).join('');
+    const box = $('#rsTabs'); box.innerHTML = UP_TOOLS.map(([k, l]) => `<button type="button" class="rd-tab${UP.gen[k] ? '' : ' new'}" role="tab" data-k="${k}" aria-selected="${k === UP.tab}"${UP.gen[k] ? '' : ` aria-label="${l}, not created yet"`}>${UP.gen[k] ? '' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>'}${l}</button>`).join('');
     const t = $('[aria-selected="true"]', box); if (t && (t.offsetLeft < box.scrollLeft + 8 || t.offsetLeft + t.offsetWidth > box.scrollLeft + box.clientWidth - 8)) box.scrollTo({left:Math.max(0, t.offsetLeft - 40), behavior: reduce ? 'auto' : 'smooth'});
   }
   function rfStage(tool){
@@ -6570,7 +6848,8 @@
     return `<div class="rf2">${s.i ? `<p class="rf2-prev" aria-hidden="true">Q${s.i}. ${hx(bank[s.i - 1][0])}</p>` : ''}<h4 class="rf2-q">Q${s.i + 1}. ${hx(bank[s.i][0])}</h4>${s.i < bank.length - 1 ? `<button type="button" class="rf2-hint" data-rfnext>${FXI.up2}Swipe up for next question</button>` : ''}</div>`;
   }
   function resPane(){
-    const t = UP.tab; if (!UP.gen[t]){ const d = UP_DEF[t]; return `<div class="fx-def"><span class="fxic"><img src="${fxIcon(t === 'notes' ? 'notes_big' : t)}" alt=""></span><h3>${d[0]}</h3><p>${d[1]}</p><button type="button" data-create>${d[0]}</button></div>`; }
+    const t = UP.tab; if (!UP.gen[t] && UP.job[t]) return upLoading(t);
+    if (!UP.gen[t]){ const d = UP_DEF[t]; return `<div class="fx-def"><span class="fxic"><img src="${fxIcon(t === 'notes' ? 'notes_big' : t)}" alt=""></span><h3>${d[0]}</h3><p>${d[1]}</p><button type="button" data-create>${d[0]}</button></div>`; }
     if (t === 'notes') return `<div class="fx-nt">${NOTES2}</div>`;
     if (t === 'flash'){ const c = FCARDS[UP.fc.i], f = UP.fc;
       return `<div class="fx-fc"><p class="fx-fn" aria-live="polite">CARD ${f.i + 1} OF ${FCARDS.length}</p><div class="fc-w"><button type="button" class="fc${f.flip ? ' flip' : ''}" aria-pressed="${f.flip}" aria-label="Flashcard ${f.i + 1}. Press to ${f.flip ? 'see the question' : 'reveal the answer'}"><span class="fc-in"><span class="fc-f"><b>${hx(c[0])}</b><span class="fc-h">Tap to reveal</span></span><span class="fc-b"><span><i>ANSWER</i><b>${hx(c[1])}</b></span><span class="fc-h">Tap to flip back</span></span></span></button></div>
@@ -6595,7 +6874,7 @@
     $('#rsTitle').textContent = UP.tab === 'quiz' ? 'Quiz me' : UP.name; resTabs();
     $('#rsSc').innerHTML = `<div class="fx-pane" data-t="${UP.tab}">${resPane()}</div>`; resBar();
   }
-  $('#rsTabs').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (!b || b.dataset.k === UP.tab) return; UP.tab = b.dataset.k; $('#rsSc').scrollTop = 0; resRender(); });
+  $('#rsTabs').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (!b || b.dataset.k === UP.tab) return; if (!UP.gen[b.dataset.k]){ const k = b.dataset.k; UP.tab = k; if (!UP.job[k]) upJob(k, true); $('#rsSc').scrollTop = 0; resRender(); return; }   /* builds right here, no separate screen */ UP.tab = b.dataset.k; $('#rsSc').scrollTop = 0; resRender(); });
   ysDragScroll($('#rsTabs'), 0);
   function upRegen(){ const t = UP.tab; UP.gen[t] = false; upReset(t); if (!UP.job[t]) upJob(t); upRead(t); }
   /* rapid fire and explain: the answer is spoken (simulated here) */
@@ -6723,9 +7002,33 @@
     if (ctx.kind === 'voice') return 'I heard your voice note! Turning voice notes into text isn’t connected here yet, so type your question or tap the mic below and I’ll take it from there.';
     return 'Thanks for sharing that! Reading photos and files isn’t connected in this prototype yet, so tell me which question to solve and I’ll walk you through it.';
   }
-  function tUi(){ const has = tIn.value.trim().length > 0 || !!tPend; tMic.hidden = has; tSend.hidden = !has; }
-  function tReset(){ tVoiceStop(); tIn.value = ''; tUi(); }
-  async function tReply(text){ const run = tutorRun; if (!await think(900, run)) return; bubble('bot', text); setMood(tAva, 'calm', 1200); }
+  function tUi(){ const has = tIn.value.trim().length > 0 || !!tPend; tMic.hidden = has; $('#tWave').hidden = has; tSend.hidden = !has; tForm.classList.toggle('typ', has); }
+  function tReset(){ tVoiceStop(); try { tvExit(); tPmSet(false); taStop(); } catch (_) {} tIn.value = ''; tUi(); }
+  async function tReply(text){ const run = tutorRun; if (!await think(900, run)) return; const m = bubble('bot', text); tActions(m.querySelector('.bub'), text); setMood(tAva, 'calm', 1200); }
+  /* like / dislike / read aloud under each answer */
+  const TA_ICON = {
+    up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.500 11V20H4.500V11zM7.500 11l3.600-7.200a2 2 0 0 1 3.700 1L13.900 9h5.200a2 2 0 0 1 2 2.400l-1.400 6.400a2.200 2.200 0 0 1-2.200 1.700H7.500"/></svg>',
+    dn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.500 13V4H4.500v9zM7.500 13l3.600 7.200a2 2 0 0 0 3.700-1L13.900 15h5.200a2 2 0 0 0 2-2.400l-1.400-6.400A2.200 2.200 0 0 0 17.500 4.500H7.500"/></svg>',
+    spk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.500h3.200L12 6v12l-4.800-3.500H4z"/><path d="M15.500 9a4 4 0 0 1 0 6M18.200 6.800a7.500 7.500 0 0 1 0 10.400"/></svg>'
+  };
+  let taBtn = null;
+  function taStop(){ try { speechSynthesis.cancel(); } catch (_) {} if (taBtn){ taBtn.setAttribute('aria-pressed', 'false'); taBtn.setAttribute('aria-label', 'Read aloud'); taBtn = null; } }
+  function tActions(bub, text){
+    if (!bub) return;
+    bub.insertAdjacentHTML('beforeend', `<div class="t-act"><button type="button" data-ta="up" aria-pressed="false" aria-label="Helpful">${TA_ICON.up}</button><button type="button" data-ta="dn" aria-pressed="false" aria-label="Not helpful">${TA_ICON.dn}</button><button type="button" data-ta="spk" aria-pressed="false" aria-label="Read aloud">${TA_ICON.spk}</button></div>`);
+    bub.querySelector('.t-act').addEventListener('click', e => {
+      const b = e.target.closest('[data-ta]'); if (!b) return; const k = b.dataset.ta;
+      if (k === 'spk'){
+        if (b === taBtn){ taStop(); return; }
+        taStop(); if (!('speechSynthesis' in window)){ toast('Read-aloud is not supported on this device'); return; }
+        const u = new SpeechSynthesisUtterance(text); u.lang = 'en-IN'; taBtn = b; b.setAttribute('aria-pressed', 'true'); b.setAttribute('aria-label', 'Stop reading');
+        u.onend = u.onerror = () => { if (taBtn === b) taStop(); };
+        speechSynthesis.speak(u); return;
+      }
+      const on = b.getAttribute('aria-pressed') !== 'true';
+      $$('[data-ta="up"],[data-ta="dn"]', b.parentElement).forEach(x => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', String(on));
+    });
+  }
   tIn.addEventListener('input', tUi);
   tForm.addEventListener('submit', e => {
     e.preventDefault(); const t = tIn.value.trim(); if (!t && !tPend) return;
@@ -6771,7 +7074,16 @@
     tReply(ctx.text ? yoReply(ctx.text) : tutorAnswer({kind:'upload'}));
   }
   /* a photo or a PDF */
-  $('#tPlus').addEventListener('click', () => { tVoiceStop(); tFile.click(); });
+  const tPm = $('#tPlusMenu'), tPmSet = o => { tPm.classList.toggle('open', o); tPm.setAttribute('aria-hidden', String(!o)); };
+  $('#tPlus').addEventListener('click', e => { e.stopPropagation(); tVoiceStop(); tPmSet(!tPm.classList.contains('open')); });
+  document.addEventListener('click', e => { if (!e.target.closest('#tPlusMenu')) tPmSet(false); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && tPm.classList.contains('open')){ tPmSet(false); e.stopImmediatePropagation(); } }, true);
+  tPm.addEventListener('click', e => {
+    const b = e.target.closest('[data-tpm]'); if (!b) return; const k = b.dataset.tpm; tPmSet(false);
+    tFile.accept = k === 'files' ? 'application/pdf,image/*' : 'image/*';
+    if (k === 'camera') tFile.setAttribute('capture', 'environment'); else tFile.removeAttribute('capture');
+    tFile.click();
+  });
   tFile.addEventListener('change', () => {
     const f = tFile.files[0]; tFile.value = ''; if (!f) return;
     if (/^image\//.test(f.type)){ const im = document.createElement('img'); im.className = 'doubt'; im.alt = 'Your photo'; im.src = URL.createObjectURL(f); bubble('me', im, {media:true}); tReply('I can see your photo! Reading photos and diagrams isn’t connected in this prototype yet, so tell me which question to solve and I’ll walk you through it.'); }
@@ -6806,6 +7118,61 @@
   }
   tMic.addEventListener('click', () => tForm.classList.contains('ls') ? tVoiceStop(true) : tVoiceStart());
 
+  /* ---- voice mode (same as Ask Noor): speak, the words show live above the box, a pause sends them ---- */
+  const TV = {on:false, muted:false, rec:null, sim:null, auto:null, i:0, txt:''}, tMute = $('#tMute'), tCap = $('#tCap'), tCapB = $('#tCapB');
+  function tvUi(){
+    tForm.classList.toggle('vm', TV.on); tForm.classList.toggle('mu', TV.on && TV.muted);
+    tMute.classList.toggle('off', TV.muted); tMute.setAttribute('aria-pressed', String(TV.muted)); tMute.setAttribute('aria-label', TV.muted ? 'Unmute microphone' : 'Mute microphone');
+    const ls = $('.t-ls', tForm); if (ls && TV.on) ls.lastChild.textContent = TV.muted ? 'Microphone is muted' : 'Listening…';
+    const txt = TV.on ? TV.txt.trim() : '';
+    tCap.classList.toggle('on', !!txt); tCap.classList.toggle('mu', TV.muted);
+    if (tCapB.textContent !== txt){ tCapB.textContent = txt; tCapB.scrollTop = tCapB.scrollHeight; scrollMsgs(); }
+  }
+  function tvPut(base, t){
+    TV.txt = (base ? base + ' ' : '') + t; tvUi();
+    clearTimeout(TV.auto); if (TV.txt.trim()) TV.auto = setTimeout(tvSend, 1800);
+  }
+  function tvStopListen(){
+    clearTimeout(TV.sim); TV.sim = null; clearTimeout(TV.auto);
+    if (TV.rec){ const r = TV.rec; TV.rec = null; r.onend = r.onerror = r.onresult = null; try { r.abort(); } catch (_) {} }
+  }
+  function tvSend(){
+    const q = TV.txt.trim(); TV.txt = ''; tvStopListen(); tvUi(); if (!TV.on || !q) return;
+    bubble('me', q); tReply(yoReply(q));
+    if (T_SR) setTimeout(tvListen, 400);
+  }
+  function tvSim(){
+    clearTimeout(TV.sim); const words = T_SAY[TV.i++ % T_SAY.length].split(' '), base = TV.txt.trim(); let n = 0;
+    const step = () => { if (!TV.on || TV.muted) return; tvPut(base, words.slice(0, ++n).join(' ')); TV.sim = n < words.length ? setTimeout(step, reduce ? 60 : 320) : null; };
+    TV.sim = setTimeout(step, reduce ? 100 : 900);
+  }
+  function tvListen(){
+    if (!TV.on || TV.muted) return; tvStopListen();
+    if (!T_SR) return tvSim();
+    let base = TV.txt.trim();
+    try {
+      const r = new T_SR(); r.continuous = true; r.interimResults = true; r.lang = 'en-IN'; TV.rec = r;
+      r.onresult = ev => { let t = ''; for (let k = 0; k < ev.results.length; k++) t += ev.results[k][0].transcript; tvPut(base, t.trim()); };
+      r.onend = () => { if (TV.on && !TV.muted && TV.rec === r){ base = TV.txt.trim(); try { r.start(); } catch (_) {} } };
+      r.onerror = ev => {
+        if (TV.rec !== r) return;
+        if (/not-allowed|service-not-allowed/.test(ev.error)){ TV.rec = null; tvExit(); toast('Microphone access is blocked'); }
+        else if (/audio-capture|network/.test(ev.error)){ TV.rec = null; tvSim(); }
+      };
+      r.start();
+    } catch (_) { TV.rec = null; tvSim(); }
+  }
+  function tvEnter(){
+    if (TV.on) return; tVoiceStop(); TV.on = true; TV.muted = false; TV.txt = ''; tIn.blur(); setMood(tAva, 'listening'); tvUi(); tvListen();
+  }
+  function tvExit(){
+    if (!TV.on) return; TV.on = false; TV.muted = false; TV.txt = ''; tvStopListen(); tvUi(); clearMood(tAva);
+  }
+  $('#tWave').addEventListener('click', tvEnter);
+  $('#tVX').addEventListener('click', tvExit);
+  tMute.addEventListener('click', () => { TV.muted = !TV.muted; if (TV.muted) tvStopListen(); tvUi(); if (!TV.muted) tvListen(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && TV.on) tvExit(); });
+
   // ---- one gentle nudge, once, so people discover it
   let nudged = false;
   function nudge(){
@@ -6833,6 +7200,7 @@
   $('#chipMore').addEventListener('click', () => setMood(heroPet, 'nerdy', 1500));
   $$('#tab-practice .pcard').forEach((c, i) => c.addEventListener('pointerdown', () => setMood(practicePet, ['studying', 'nerdy', 'determined'][i], 1500)));
   $('#mic').addEventListener('click', () => setMood(heroPet, 'listening', 1400));
+  $('#askMic').addEventListener('click', () => setMood(heroPet, 'listening', 1400));
   askInput.addEventListener('focus', () => setMood(heroPet, 'focused'));
   askInput.addEventListener('blur', () => { if (heroPet.dataset.mood === 'focused') clearMood(heroPet); });
   askForm.addEventListener('submit', () => setMood(heroPet, 'confident', 1400));
